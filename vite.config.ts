@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [uni()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, './src'),
       '@components': path.resolve(__dirname, './components'),
       '@pages': path.resolve(__dirname, './pages'),
       '@services': path.resolve(__dirname, './services'),
