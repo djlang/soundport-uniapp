@@ -17,14 +17,14 @@ onMounted(() => {
   // 检查是否有上次播放记录，有则直接进入电台页
   const lastStation = uni.getStorageSync('AppLastPlayedStation')
   if (lastStation) {
-    uni.switchTab({
+    uni.reLaunch({
       url: '/pages/radio/radio'
     })
   }
 })
 
 function enterApp() {
-  uni.switchTab({
+  uni.reLaunch({
     url: '/pages/radio/radio'
   })
 }

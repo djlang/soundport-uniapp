@@ -21,13 +21,6 @@
       }
     },
     {
-      "path": "pages/tv/tv",
-      "style": {
-        "navigationBarTitleText": "电视",
-        "navigationStyle": "default"
-      }
-    },
-    {
       "path": "pages/search/search",
       "style": {
         "navigationBarTitleText": "搜索电台",
@@ -42,26 +35,6 @@
       }
     }
   ],
-  "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#007AFF",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
-    "list": [
-      {
-        "pagePath": "pages/radio/radio",
-        "text": "电台",
-        "iconPath": "/static/tabbar/radio.png",
-        "selectedIconPath": "/static/tabbar/radio-active.png"
-      },
-      {
-        "pagePath": "pages/tv/tv",
-        "text": "电视",
-        "iconPath": "/static/tabbar/tv.png",
-        "selectedIconPath": "/static/tabbar/tv-active.png"
-      }
-    ]
-  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "声泊电台",

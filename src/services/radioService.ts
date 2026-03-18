@@ -16,7 +16,7 @@ class RadioService {
     try {
       const urlString = `${this.baseURL}/stations/bycountrycodeexact/CN?limit=500&order=clickcount&reverse=true`
 
-      const res = await uni.request({
+      const res: any = await uni.request({
         url: urlString,
         method: 'GET',
         header: {
@@ -24,12 +24,13 @@ class RadioService {
         }
       })
 
-      if (res[1].statusCode !== 200) {
-        console.error('请求失败:', res[1].statusCode)
+      const response = Array.isArray(res) ? res[1] : res
+      if (response.statusCode !== 200) {
+        console.error('请求失败:', response.statusCode)
         return []
       }
 
-      const raw = res[1].data as RawStation[]
+      const raw = response.data as RawStation[]
 
       // 打印所有州名用于调试
       const allStates = new Set(raw.map(r => r.state).filter(Boolean))
@@ -91,7 +92,7 @@ class RadioService {
     try {
       const urlString = `${this.baseURL}/stations/bycountrycodeexact/${code}?limit=100`
 
-      const res = await uni.request({
+      const res: any = await uni.request({
         url: urlString,
         method: 'GET',
         header: {
@@ -99,11 +100,12 @@ class RadioService {
         }
       })
 
-      if (res[1].statusCode !== 200) {
+      const response = Array.isArray(res) ? res[1] : res
+      if (response.statusCode !== 200) {
         throw new Error('请求失败')
       }
 
-      const raw = res[1].data as RawStation[]
+      const raw = response.data as RawStation[]
 
       const stations: Station[] = raw.map(item => ({
         changeuuid: item.changeuuid,
@@ -139,7 +141,7 @@ class RadioService {
       const countryParam = isGlobal ? '' : '&countrycode=CN'
       const urlString = `https://de1.api.radio-browser.info/json/stations/byname/${encodedName}${countryParam}&limit=50`
 
-      const res = await uni.request({
+      const res: any = await uni.request({
         url: urlString,
         method: 'GET',
         header: {
@@ -147,11 +149,12 @@ class RadioService {
         }
       })
 
-      if (res[1].statusCode !== 200) {
+      const response = Array.isArray(res) ? res[1] : res
+      if (response.statusCode !== 200) {
         return []
       }
 
-      const rawStations = res[1].data as RawStation[]
+      const rawStations = response.data as RawStation[]
 
       return rawStations.map(raw => ({
         changeuuid: raw.changeuuid,
@@ -176,7 +179,7 @@ class RadioService {
     try {
       const urlString = `${this.baseURL}/stations/bytag/${tag}?limit=${limit}`
 
-      const res = await uni.request({
+      const res: any = await uni.request({
         url: urlString,
         method: 'GET',
         header: {
@@ -184,9 +187,10 @@ class RadioService {
         }
       })
 
-      if (res[1].statusCode !== 200) return []
+      const response = Array.isArray(res) ? res[1] : res
+      if (response.statusCode !== 200) return []
 
-      const rawStations = res[1].data as RawStation[]
+      const rawStations = response.data as RawStation[]
 
       return rawStations.map(raw => ({
         changeuuid: raw.changeuuid,
@@ -211,7 +215,7 @@ class RadioService {
     try {
       const urlString = `${this.baseURL}/stations/topclick/?limit=${limit}&offset=${offset}`
 
-      const res = await uni.request({
+      const res: any = await uni.request({
         url: urlString,
         method: 'GET',
         header: {
@@ -219,9 +223,10 @@ class RadioService {
         }
       })
 
-      if (res[1].statusCode !== 200) return []
+      const response = Array.isArray(res) ? res[1] : res
+      if (response.statusCode !== 200) return []
 
-      const rawStations = res[1].data as RawStation[]
+      const rawStations = response.data as RawStation[]
 
       return rawStations.map(raw => ({
         changeuuid: raw.changeuuid,

@@ -46,6 +46,18 @@
   "mp-toutiao": {
     "usingComponents": true
   },
+  "h5": {
+    "title": "声泊电台",
+    "domain": "localhost",
+    "router": {
+      "mode": "hash"
+    },
+    "optimization": {
+      "treeShaking": {
+        "enable": true
+      }
+    }
+  },
   "uniStatistics": {
     "enable": false
   },

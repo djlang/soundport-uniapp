@@ -125,9 +125,10 @@ export const useRadioStore = defineStore('radio', () => {
           const apiParam = RegionMapper.toApiParameter(selectedProvince.value)
           // 使用 bystate 接口
           const url = `https://all.api.radio-browser.info/json/stations/bystate/${encodeURIComponent(apiParam)}?limit=${pageSize}&offset=${offset}`
-          const res = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
-          if (res[1].statusCode === 200) {
-            newStations = (res[1].data as any[]).map(raw => ({
+          const res: any = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
+          const response = Array.isArray(res) ? res[1] : res
+          if (response.statusCode === 200) {
+            newStations = (response.data as any[]).map(raw => ({
               changeuuid: raw.changeuuid,
               id: raw.changeuuid,
               name: raw.name,
@@ -145,9 +146,10 @@ export const useRadioStore = defineStore('radio', () => {
           const apiParam = RegionMapper.toApiParameterForCountry(selectedCountry.value)
           if (apiParam) {
             const url = `https://all.api.radio-browser.info/json/stations/bycountrycodeexact/${apiParam}?limit=${pageSize}&offset=${offset}`
-            const res = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
-            if (res[1].statusCode === 200) {
-              newStations = (res[1].data as any[]).map(raw => ({
+            const res: any = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
+            const response = Array.isArray(res) ? res[1] : res
+            if (response.statusCode === 200) {
+              newStations = (response.data as any[]).map(raw => ({
                 changeuuid: raw.changeuuid,
                 id: raw.changeuuid,
                 name: raw.name,
@@ -163,10 +165,11 @@ export const useRadioStore = defineStore('radio', () => {
         }
 
         case 'national': {
-          const url = `https://all.api.radio-browser.info/json/stations/byname/中央？limit=${pageSize}&offset=${offset}`
-          const res = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
-          if (res[1].statusCode === 200) {
-            newStations = (res[1].data as any[]).map(raw => ({
+          const url = `https://all.api.radio-browser.info/json/stations/byname/中央?limit=${pageSize}&offset=${offset}`
+          const res: any = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
+          const response = Array.isArray(res) ? res[1] : res
+          if (response.statusCode === 200) {
+            newStations = (response.data as any[]).map(raw => ({
               changeuuid: raw.changeuuid,
               id: raw.changeuuid,
               name: raw.name,

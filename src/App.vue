@@ -3,7 +3,6 @@ import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 
 onLaunch(() => {
   console.log('App Launch')
-  // 初始化全局状态
 })
 
 onShow(() => {
@@ -15,10 +14,7 @@ onHide(() => {
 })
 </script>
 
-<style lang="scss">
-/*每个页面公共 css */
-@import './uni.scss';
-
+<style>
 page {
   height: 100%;
   background-color: #f5f5f5;
