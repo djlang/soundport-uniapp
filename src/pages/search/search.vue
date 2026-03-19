@@ -9,7 +9,7 @@
           class="search-input"
           placeholder="搜索电台名称"
           placeholder-class="input-placeholder"
-          :confirm-type="search"
+          confirm-type="search"
           @confirm="handleSearch"
         />
         <text v-if="radioStore.searchText" class="clear-btn" @tap="clearSearch">✕</text>
@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRadioStore } from '@/store/radio'
 import { usePlayerStore } from '@/store/player'
 import StationRow from '@/components/station-row/index.vue'
@@ -80,6 +80,7 @@ function handleSearch() {
 function clearSearch() {
   radioStore.searchText = ''
   searched.value = false
+  radioStore.isSearching = false
   radioStore.searchResults = []
 }
 

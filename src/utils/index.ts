@@ -81,9 +81,29 @@ export function filterDuplicates(
 
   // 过滤去重
   return sortedList.filter(item => {
+    const id = item[idKey]
     const normalizedName = item[nameKey]?.toLowerCase().trim()
-    const isNewId = seenIds.add(item[idKey]).size > seenIds.size
-    const isNewName = seenNames.add(normalizedName).size > seenNames.size
-    return isNewId && isNewName
+
+    if (!id || !normalizedName) {
+      return false
+    }
+
+    if (seenIds.has(id) || seenNames.has(normalizedName)) {
+      return false
+    }
+
+    seenIds.add(id)
+    seenNames.add(normalizedName)
+    return true
   })
+}
+
+/**
+ * 构建请求头（H5 不允许设置 User-Agent）
+ */
+export function buildRequestHeaders(): Record<string, string> {
+  // #ifdef H5
+  return {}
+  // #endif
+  return { 'User-Agent': '声泊 Radio/1.0' }
 }

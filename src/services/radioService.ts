@@ -1,5 +1,6 @@
-import type { Station, Region, RawStation, RadioCategoryType } from '@/types/station'
-import type { RadioTaskType } from './radioTask'
+import type { Station, Region } from '@/types/station'
+import type { RawStation } from '@/types/common'
+import { buildRequestHeaders } from '@/utils'
 
 /**
  * 电台服务类
@@ -19,9 +20,7 @@ class RadioService {
       const res: any = await uni.request({
         url: urlString,
         method: 'GET',
-        header: {
-          'User-Agent': '声泊 Radio/1.0'
-        }
+        header: buildRequestHeaders()
       })
 
       const response = Array.isArray(res) ? res[1] : res
@@ -95,9 +94,7 @@ class RadioService {
       const res: any = await uni.request({
         url: urlString,
         method: 'GET',
-        header: {
-          'User-Agent': '声泊 Radio/1.0'
-        }
+        header: buildRequestHeaders()
       })
 
       const response = Array.isArray(res) ? res[1] : res
@@ -144,9 +141,7 @@ class RadioService {
       const res: any = await uni.request({
         url: urlString,
         method: 'GET',
-        header: {
-          'User-Agent': '声泊 Radio/1.0'
-        }
+        header: buildRequestHeaders()
       })
 
       const response = Array.isArray(res) ? res[1] : res
@@ -182,9 +177,7 @@ class RadioService {
       const res: any = await uni.request({
         url: urlString,
         method: 'GET',
-        header: {
-          'User-Agent': '声泊 Radio/1.0'
-        }
+        header: buildRequestHeaders()
       })
 
       const response = Array.isArray(res) ? res[1] : res
@@ -213,14 +206,13 @@ class RadioService {
    */
   async getHot(limit = 50, offset = 0): Promise<Station[]> {
     try {
-      const urlString = `${this.baseURL}/stations/topclick/?limit=${limit}&offset=${offset}`
+      // 注意：topclick 接口末尾不要带 `/`，否则可能返回空数组
+      const urlString = `${this.baseURL}/stations/topclick?limit=${limit}&offset=${offset}`
 
       const res: any = await uni.request({
         url: urlString,
         method: 'GET',
-        header: {
-          'User-Agent': '声泊 Radio/1.0'
-        }
+        header: buildRequestHeaders()
       })
 
       const response = Array.isArray(res) ? res[1] : res

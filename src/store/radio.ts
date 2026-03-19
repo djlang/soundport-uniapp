@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { Station, Region, RadioCategoryType } from '@/types/station'
+import type { Station, RadioCategoryType } from '@/types/station'
 import { radioService } from '@/services/radioService'
 import { favoritesService } from '@/services/favoritesService'
 import { RegionMapper } from '@/utils/regionMapper'
-import { filterDuplicates } from '@/utils'
+import { filterDuplicates, buildRequestHeaders } from '@/utils'
 
 const RADIO_CATEGORIES: RadioCategoryType[] = [
   'favorites',
@@ -125,7 +125,7 @@ export const useRadioStore = defineStore('radio', () => {
           const apiParam = RegionMapper.toApiParameter(selectedProvince.value)
           // 使用 bystate 接口
           const url = `https://all.api.radio-browser.info/json/stations/bystate/${encodeURIComponent(apiParam)}?limit=${pageSize}&offset=${offset}`
-          const res: any = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
+          const res: any = await uni.request({ url, method: 'GET', header: buildRequestHeaders() })
           const response = Array.isArray(res) ? res[1] : res
           if (response.statusCode === 200) {
             newStations = (response.data as any[]).map(raw => ({
@@ -146,7 +146,7 @@ export const useRadioStore = defineStore('radio', () => {
           const apiParam = RegionMapper.toApiParameterForCountry(selectedCountry.value)
           if (apiParam) {
             const url = `https://all.api.radio-browser.info/json/stations/bycountrycodeexact/${apiParam}?limit=${pageSize}&offset=${offset}`
-            const res: any = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
+            const res: any = await uni.request({ url, method: 'GET', header: buildRequestHeaders() })
             const response = Array.isArray(res) ? res[1] : res
             if (response.statusCode === 200) {
               newStations = (response.data as any[]).map(raw => ({
@@ -166,7 +166,7 @@ export const useRadioStore = defineStore('radio', () => {
 
         case 'national': {
           const url = `https://all.api.radio-browser.info/json/stations/byname/中央?limit=${pageSize}&offset=${offset}`
-          const res: any = await uni.request({ url, method: 'GET', header: { 'User-Agent': '声泊 Radio/1.0' } })
+          const res: any = await uni.request({ url, method: 'GET', header: buildRequestHeaders() })
           const response = Array.isArray(res) ? res[1] : res
           if (response.statusCode === 200) {
             newStations = (response.data as any[]).map(raw => ({
@@ -247,6 +247,7 @@ export const useRadioStore = defineStore('radio', () => {
     const query = searchText.value.trim()
     if (!query) {
       searchResults.value = []
+      isSearching.value = false
       return
     }
 
@@ -255,11 +256,10 @@ export const useRadioStore = defineStore('radio', () => {
       isFetchingMore.value = true
     } else {
       isLoading.value = true
+      isSearching.value = true
       searchResults.value = []
       currentPage.value = 0
     }
-
-    const offset = currentPage.value * pageSize
 
     try {
       const newStations = await radioService.searchStations(query)

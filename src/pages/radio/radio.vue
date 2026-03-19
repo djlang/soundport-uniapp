@@ -163,7 +163,7 @@ function getIconType(icon: string): string {
     'figure-run': 'run',
     'dollarsign': 'money',
     'lightbulb-fill': 'lightbulb',
-    'globe-americas': ' globe'
+    'globe-americas': 'world'
   }
   return iconMap[icon] || 'circle'
 }
